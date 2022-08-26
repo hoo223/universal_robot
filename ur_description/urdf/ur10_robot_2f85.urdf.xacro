@@ -1,0 +1,36 @@
+<?xml version="1.0"?>
+<robot xmlns:xacro="http://wiki.ros.org/xacro"
+       name="ur10" >
+
+  <xacro:arg name="transmission_hw_interface" default="hardware_interface/PositionJointInterface"/>
+
+  <!-- ur10 -->
+  <xacro:include filename="$(find ur_description)/urdf/ur10_robot.urdf.xacro" />
+
+  <!-- ft sensor -->
+  <xacro:include filename="$(find robotiq_ft_sensor)/urdf/robotiq_ft300.urdf.xacro" />
+  <xacro:robotiq_ft300 parent="tool0" prefix="">
+    <origin xyz="0 0 -0.01" rpy="0 0 0"/> 
+  </xacro:robotiq_ft300>
+
+  <!-- 2f-85 gripper -->
+  <xacro:include filename="$(find robotiq_description)/urdf/robotiq_85_gripper.urdf.xacro" />
+  <xacro:robotiq_85_gripper prefix="" parent="robotiq_ft_frame_id" >
+    <origin xyz="0 0 0" rpy="0 ${-pi/2.0} 0"/>
+  </xacro:robotiq_85_gripper>
+
+  <!-- end_effector cord-->
+  <link name="tool_gripper"/>
+  <joint name="gripper_to_tool_joint" type="fixed">
+    <parent link="robotiq_85_base_link"/>
+    <child link="tool_gripper"/>
+    <origin rpy="0 0 0" xyz="0.14 0 0"/>
+  </joint>
+
+  <!-- realsense d435 -->
+  <xacro:include filename="$(find realsense2_description)/urdf/_d435.urdf.xacro" />
+  <xacro:sensor_d435 name="camera" topics_ns="camera" parent="ee_link" publish_pointcloud="false">
+    <origin xyz="0 0 0.1" rpy="0 0.35 0" />
+  </xacro:sensor_d435>  
+
+</robot>
