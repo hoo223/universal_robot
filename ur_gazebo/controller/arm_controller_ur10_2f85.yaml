@@ -49,13 +49,6 @@ joint_group_pos_controller:
 joint_group_vel_controller:
   type: velocity_controllers/JointGroupVelocityController
   joints: *robot_joints
-  gains: # Required because we're controlling an effort interface
-      shoulder_pan_joint: {p: 10,  d: 1, i: 1, i_clamp: 1}
-      shoulder_lift_joint: {p: 10,  d: 1, i: 1, i_clamp: 1}
-      elbow_joint: {p: 10,  d: 1, i: 1, i_clamp: 1}
-      wrist_1_joint: {p: 10,  d: 1, i: 1, i_clamp: 1}
-      wrist_2_joint: {p: 10,  d: 1, i: 1, i_clamp: 1}
-      wrist_3_joint: {p: 10,  d: 1, i: 1, i_clamp: 1}
   velocity_ff:
       shoulder_pan_joint: 1.0
       shoulder_lift_joint: 1.0
