@@ -3,28 +3,29 @@
        name="ur10" >
 
   <xacro:arg name="transmission_hw_interface" default="hardware_interface/PositionJointInterface"/>
+  <xacro:arg name="_prefix" default=""/>
 
   <!-- ur10 -->
-  <xacro:include filename="$(find ur_description)/urdf/ur10_joint_limited_robot.urdf.xacro" />
+  <xacro:include filename="$(find ur_description)/urdf/ur10_joint_limited_robot.urdf.xacro"/>
 
   <!-- ft sensor -->
   <xacro:include filename="$(find robotiq_ft_sensor)/urdf/robotiq_ft300.urdf.xacro" />
-  <xacro:robotiq_ft300 parent="tool0" prefix="">
+  <xacro:robotiq_ft300 parent="tool0" prefix="$(arg _prefix)">
     <origin xyz="0 0 -0.01" rpy="0 0 0"/> 
   </xacro:robotiq_ft300>
 
   <!-- 2f-85 gripper -->
   <xacro:include filename="$(find robotiq_description)/urdf/robotiq_85_gripper.urdf.xacro" />
-  <xacro:robotiq_85_gripper prefix="" parent="robotiq_ft_frame_id" >
+  <xacro:robotiq_85_gripper prefix="$(arg _prefix)" parent="robotiq_ft_frame_id" >
     <origin xyz="0 0 0" rpy="0 ${-pi/2.0} 0"/>
   </xacro:robotiq_85_gripper>
 
   <!-- Gazebo gripper plugin -->
   <xacro:include filename="$(find robotiq_description)/urdf/robotiq_85_gripper.gazebo.xacro" />
-  <xacro:robotiq_85_gripper_gazebo prefix=""/>
+  <xacro:robotiq_85_gripper_gazebo prefix="$(arg _prefix)"/>
 
   <!-- end_effector cord-->
-  <link name="tool_gripper"/>
+  <link name="$(arg _prefix)tool_gripper"/>
   <joint name="gripper_to_tool_joint" type="fixed">
     <parent link="robotiq_85_base_link"/>
     <child link="tool_gripper"/>
